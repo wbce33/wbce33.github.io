@@ -46,7 +46,7 @@
             to { transform: translateX(-100%); }
         }
         .scrolling-wrapper.animated {
-            animation: scroll 30s linear infinite;
+            animation: scroll 20s linear infinite;
         }
         .contact-section { background: #444; color: white; text-align: center; padding: 20px; margin-top: 20px; }
         .contact-section h2 { margin-bottom: 10px; }
@@ -63,15 +63,15 @@
     
     <section class="before-after-container">
         <h2>Before & After</h2>
-        <div class="scrolling-sections">
-            <div class="scrolling-section" id="scrollBefore">
+        <div class="scrolling-sections" id="scrollingSections">
+            <div class="scrolling-section">
                 <div class="scrolling-wrapper animated">
                     <div class="before-after"><img src="b1.jpg" alt="Before"></div>
                     <div class="before-after"><img src="b2.jpg" alt="Before"></div>
                     <div class="before-after"><img src="b3.jpg" alt="Before"></div>
                 </div>
             </div>
-            <div class="scrolling-section" id="scrollAfter">
+            <div class="scrolling-section">
                 <div class="scrolling-wrapper animated">
                     <div class="before-after"><img src="a1.jpg" alt="After"></div>
                     <div class="before-after"><img src="a2.jpg" alt="After"></div>
@@ -88,36 +88,37 @@
     </section>
     
     <script>
-        document.querySelectorAll('.scrolling-section').forEach(section => {
-            let isDown = false;
-            let startX;
-            let scrollLeft;
-            const wrapper = section.querySelector('.scrolling-wrapper');
-            
-            section.addEventListener('mousedown', (e) => {
-                isDown = true;
-                wrapper.classList.remove('animated');
-                startX = e.pageX - section.offsetLeft;
-                scrollLeft = section.scrollLeft;
-                section.style.cursor = 'grabbing';
-            });
-            section.addEventListener('mouseleave', () => {
-                isDown = false;
-                wrapper.classList.add('animated');
-                section.style.cursor = 'grab';
-            });
-            section.addEventListener('mouseup', () => {
-                isDown = false;
-                wrapper.classList.add('animated');
-                section.style.cursor = 'grab';
-            });
-            section.addEventListener('mousemove', (e) => {
-                if (!isDown) return;
-                e.preventDefault();
-                const x = e.pageX - section.offsetLeft;
-                const walk = (x - startX) * 2; // Adjust scrolling speed
-                section.scrollLeft = scrollLeft - walk;
-            });
+        const scrollingSections = document.getElementById("scrollingSections");
+        let isDown = false;
+        let startX;
+        let scrollLeft;
+        
+        scrollingSections.addEventListener("mousedown", (e) => {
+            isDown = true;
+            scrollingSections.querySelectorAll(".scrolling-wrapper").forEach(wrapper => wrapper.classList.remove("animated"));
+            startX = e.pageX - scrollingSections.offsetLeft;
+            scrollLeft = scrollingSections.scrollLeft;
+            scrollingSections.style.cursor = "grabbing";
+        });
+        
+        scrollingSections.addEventListener("mouseleave", () => {
+            isDown = false;
+            scrollingSections.querySelectorAll(".scrolling-wrapper").forEach(wrapper => wrapper.classList.add("animated"));
+            scrollingSections.style.cursor = "grab";
+        });
+        
+        scrollingSections.addEventListener("mouseup", () => {
+            isDown = false;
+            scrollingSections.querySelectorAll(".scrolling-wrapper").forEach(wrapper => wrapper.classList.add("animated"));
+            scrollingSections.style.cursor = "grab";
+        });
+        
+        scrollingSections.addEventListener("mousemove", (e) => {
+            if (!isDown) return;
+            e.preventDefault();
+            const x = e.pageX - scrollingSections.offsetLeft;
+            const walk = (x - startX) * 2;
+            scrollingSections.scrollLeft = scrollLeft - walk;
         });
     </script>
 </body>
